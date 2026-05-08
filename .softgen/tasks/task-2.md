@@ -1,6 +1,6 @@
 ---
 title: Super Admin Dashboard & Vendor Management
-status: todo
+status: in_progress
 priority: high
 type: feature
 tags: [admin, vendors]
@@ -13,13 +13,14 @@ position: 2
 Super admin dashboard with vendor CRUD operations. Platform owner can create vendors, assign store slugs, approve/suspend vendors, and view platform-wide metrics.
 
 ## Checklist
-- [ ] Admin dashboard page with stats cards (total vendors, active vendors, total products, pending approvals)
+- [x] Admin dashboard page with stats cards (total vendors, active vendors, total products, pending approvals)
+- [x] Admin layout with navigation
 - [ ] Vendors list page with data table (name, slug, status, products count, created date)
 - [ ] Create vendor modal/form (name, email, password, slug, contact, status)
 - [ ] Edit vendor functionality
 - [ ] Suspend/activate vendor toggle
 - [ ] Delete vendor with confirmation
-- [ ] API routes for vendor CRUD (/api/admin/vendors)
+- [x] API routes for vendor CRUD (/api/admin/vendors)
 - [ ] Vendor approval workflow (pending → approved → active)
 
 ## Acceptance
