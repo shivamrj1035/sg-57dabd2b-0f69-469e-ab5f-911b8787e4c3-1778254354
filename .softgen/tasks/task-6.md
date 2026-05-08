@@ -1,6 +1,6 @@
 ---
 title: Store Customization
-status: todo
+status: in_progress
 priority: medium
 type: feature
 tags: [customization, branding]

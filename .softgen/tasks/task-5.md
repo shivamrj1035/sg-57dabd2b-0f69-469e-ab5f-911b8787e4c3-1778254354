@@ -1,6 +1,6 @@
 ---
 title: WhatsApp Integration
-status: todo
+status: done
 priority: medium
 type: feature
 tags: [whatsapp, ordering]
@@ -13,13 +13,13 @@ position: 5
 WhatsApp ordering functionality. Each product detail page and vendor storefront has "Order on WhatsApp" button that opens WhatsApp with pre-filled message including product details and vendor contact.
 
 ## Checklist
-- [ ] WhatsApp configuration in vendor settings (phone number input)
-- [ ] "Order on WhatsApp" button component
-- [ ] Pre-filled message template (product name, price, vendor name, link)
-- [ ] WhatsApp share button for products
-- [ ] Mobile detection for WhatsApp app vs WhatsApp Web
-- [ ] Contact vendor button on storefront header
-- [ ] WhatsApp icon with vendor phone on storefront
+- [x] WhatsApp configuration in vendor settings (phone number input)
+- [x] "Order on WhatsApp" button component
+- [x] Pre-filled message template (product name, price, vendor name, link)
+- [x] WhatsApp share button for products
+- [x] Mobile detection for WhatsApp app vs WhatsApp Web
+- [x] Contact vendor button on storefront header
+- [x] WhatsApp icon with vendor phone on storefront
 
 ## Acceptance
 - Clicking "Order on WhatsApp" opens WhatsApp with pre-filled product message
