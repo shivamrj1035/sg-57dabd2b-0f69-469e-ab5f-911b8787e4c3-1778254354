@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -12,60 +11,64 @@ model User {
   email     String   @unique
   password  String
   name      String
-  role      String   // "super_admin", "vendor", "customer"
-  status    String   @default("active") // "active", "suspended", "pending"
+  role      String   // super_admin, vendor, customer
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  // Relation to Vendor (one-to-one)
   vendor    Vendor?
+  
+  @@index([email])
+  @@index([role])
 }
 
 model Vendor {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  slug            String   @unique
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  slug            String    @unique
   name            String
   email           String
   phone           String?
   whatsappNumber  String?
+  status          String    @default("pending") // pending, approved, suspended
   logo            String?
   banner          String?
   about           String?
   address         String?
   businessHours   String?
-  primaryColor    String?
-  secondaryColor  String?
-  status          String   @default("pending") // "pending", "approved", "active", "suspended"
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  facebook        String?
+  instagram       String?
+  twitter         String?
+  primaryColor    String    @default("#3b82f6")
+  secondaryColor  String    @default("#64748b")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   
-  // Social Links (stored as JSON)
-  socialLinks     Json?
-  
-  // Relations
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   products        Product[]
+  
+  @@index([userId])
+  @@index([slug])
+  @@index([status])
 }
 
 model Product {
   id            String   @id @default(cuid())
   vendorId      String
   name          String
+  slug          String
   description   String
   price         Float
   discountPrice Float?
-  category      String
-  images        String[] // Array of image URLs
-  sku           String?
-  stockStatus   String   @default("in_stock") // "in_stock", "low_stock", "out_of_stock"
+  category      String?
+  images        String[]
+  stockStatus   String   @default("in_stock") // in_stock, low_stock, out_of_stock
   quantity      Int      @default(0)
+  sku           String?
   featured      Boolean  @default(false)
   views         Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   
-  // Relations
   vendor        Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
   
   @@index([vendorId])
