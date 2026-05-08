@@ -127,7 +127,7 @@ export default function StorefrontPage() {
   return (
     <>
       <SEO
-        title={`${vendor.businessName} - Online Store`}
+        title={`${vendor.name} - Online Store`}
         description={vendor.about}
         image={vendor.banner}
       />
@@ -171,7 +171,7 @@ export default function StorefrontPage() {
           {vendor.banner && (
             <img
               src={vendor.banner}
-              alt={vendor.businessName}
+              alt={vendor.name}
               className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
             />
           )}
@@ -187,17 +187,17 @@ export default function StorefrontPage() {
                 <div className="w-24 h-24 rounded-xl bg-white p-2 shadow-xl border-4 border-white">
                   <img
                     src={vendor.logo}
-                    alt={vendor.businessName}
+                    alt={vendor.name}
                     className="w-full h-full object-contain"
                   />
                 </div>
               )}
               <div className="pb-2">
                 <h1 className="text-4xl font-heading font-bold text-white mb-2">
-                  {vendor.businessName}
+                  {vendor.name}
                 </h1>
-                {vendor.tagline && (
-                  <p className="text-white/90 text-lg">{vendor.tagline}</p>
+                {vendor.about && (
+                  <p className="text-white/90 text-lg line-clamp-2 max-w-2xl">{vendor.about}</p>
                 )}
               </div>
             </motion.div>

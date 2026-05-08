@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -146,10 +147,20 @@ export default function ProductDetailPage() {
 
         {/* Product Details */}
         <div className="container mx-auto px-4 py-8">
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto"
+          >
             {/* Images */}
             <div className="space-y-4">
-              <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="aspect-square bg-muted rounded-lg overflow-hidden shadow-lg"
+              >
                 {product.images.length > 0 ? (
                   <img
                     src={product.images[selectedImage]}
@@ -161,11 +172,13 @@ export default function ProductDetailPage() {
                     <Package className="h-24 w-24 text-muted-foreground" />
                   </div>
                 )}
-              </div>
+              </motion.div>
               {product.images.length > 1 && (
                 <div className="grid grid-cols-4 gap-2">
                   {product.images.map((image, index) => (
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       key={index}
                       onClick={() => setSelectedImage(index)}
                       className={`aspect-square rounded-lg overflow-hidden border-2 transition-colors ${
@@ -173,14 +186,19 @@ export default function ProductDetailPage() {
                       }`}
                     >
                       <img src={image} alt={`${product.name} ${index + 1}`} className="w-full h-full object-cover" />
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               )}
             </div>
 
             {/* Details */}
-            <div className="space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="space-y-6"
+            >
               <div>
                 <div className="flex items-start justify-between mb-2">
                   <h1 className="text-3xl font-heading font-bold">{product.name}</h1>
@@ -223,7 +241,7 @@ export default function ProductDetailPage() {
                 <Button
                   onClick={handleWhatsAppOrder}
                   size="lg"
-                  className="w-full"
+                  className="w-full shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow"
                   disabled={product.stockStatus === "out_of_stock"}
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
@@ -237,7 +255,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Vendor Info Card */}
-              <Card>
+              <Card className="hover:shadow-md transition-shadow">
                 <CardContent className="p-4">
                   <h3 className="font-heading font-semibold mb-3">Sold by</h3>
                   <div className="flex items-center gap-3 mb-3">
@@ -262,8 +280,8 @@ export default function ProductDetailPage() {
                   </Button>
                 </CardContent>
               </Card>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </>
