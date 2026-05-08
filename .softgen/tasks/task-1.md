@@ -1,6 +1,6 @@
 ---
 title: Authentication & Role System
-status: in_progress
+status: done
 priority: urgent
 type: feature
 tags: [auth, foundation]
@@ -18,9 +18,9 @@ Foundation authentication system with role-based access control. Three roles: Su
 - [x] Registration page for vendors (approval pending state)
 - [x] Protected route wrapper component
 - [x] Role-based route guards (super-admin, vendor)
-- [ ] Auth API routes (/api/auth/login, /api/auth/register, /api/auth/logout)
-- [ ] User session management with JWT
-- [ ] Logout functionality
+- [x] Auth API routes (/api/auth/login, /api/auth/register, /api/auth/logout)
+- [x] User session management with JWT
+- [x] Logout functionality
 
 ## Acceptance
 - Super admin can log in and access admin dashboard
