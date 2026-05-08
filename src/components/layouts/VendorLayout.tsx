@@ -8,8 +8,7 @@ import {
   Package, 
   Settings, 
   LogOut,
-  Store,
-  Palette
+  Store
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,8 +19,6 @@ interface VendorLayoutProps {
 const navigation = [
   { name: "Dashboard", href: "/vendor/dashboard", icon: LayoutDashboard },
   { name: "Products", href: "/vendor/products", icon: Package },
-  { name: "Storefront", href: "/vendor/storefront", icon: Store },
-  { name: "Customize", href: "/vendor/customize", icon: Palette },
   { name: "Settings", href: "/vendor/settings", icon: Settings },
 ];
 
