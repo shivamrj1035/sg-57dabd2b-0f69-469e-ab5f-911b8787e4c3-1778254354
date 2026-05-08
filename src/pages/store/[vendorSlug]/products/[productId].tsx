@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Store, MessageCircle, ArrowLeft, Share2, Package } from "lucide-react";
+import { Store, MessageCircle, ArrowLeft, Share2, Package, Phone, ShoppingBag, Store as StoreIcon } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { Vendor, Product, StockStatus } from "@/types";
 import { useToast } from "@/hooks/use-toast";
+import { Product3DViewer } from "@/components/3D/Product3DViewer";
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -155,6 +156,16 @@ export default function ProductDetailPage() {
           >
             {/* Images */}
             <div className="space-y-4">
+              {/* 3D Preview Option */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg overflow-hidden shadow-lg mb-4"
+              >
+                <Product3DViewer imageUrl={product.images[selectedImage]} autoRotate={true} />
+              </motion.div>
+              
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
