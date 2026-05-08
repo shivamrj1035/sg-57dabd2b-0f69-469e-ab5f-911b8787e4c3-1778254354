@@ -1,6 +1,6 @@
 ---
 title: Public Storefront & Product Display
-status: in_progress
+status: done
 priority: high
 type: feature
 tags: [storefront, public]
@@ -13,14 +13,14 @@ position: 4
 Public-facing storefront where customers browse products without login. Each vendor has a unique URL (/store/[vendorSlug]) with branded storefront, product catalog, category filtering, and product detail pages.
 
 ## Checklist
-- [ ] Public storefront page at /store/[vendorSlug]
-- [ ] Vendor branding display (logo, banner, about, contact)
-- [ ] Product grid with images, prices, stock status
-- [ ] Category filtering
-- [ ] Product detail page at /store/[vendorSlug]/products/[productId]
-- [ ] Public API routes for vendor and product data
-- [ ] SEO meta tags for storefront and products
-- [ ] Mobile-responsive design
+- [x] Public storefront page at /store/[vendorSlug]
+- [x] Vendor branding display (logo, banner, about, contact)
+- [x] Product grid with images, prices, stock status
+- [x] Category filtering
+- [x] Product detail page at /store/[vendorSlug]/products/[productId]
+- [x] Public API routes for vendor and product data
+- [x] SEO meta tags for storefront and products
+- [x] Mobile-responsive design
 
 ## Acceptance
 - Customers can visit vendor storefront without login
