@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Store, MessageCircle, Search, MapPin, Clock, Phone, Mail } from "lucide-react";
+import { Store, MessageCircle, Search, MapPin, Clock, Phone, Mail, Facebook, Instagram, Twitter, ShoppingBag } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { Vendor, Product, StockStatus } from "@/types";
 
@@ -126,8 +127,9 @@ export default function StorefrontPage() {
   return (
     <>
       <SEO
-        title={`${vendor.name} - Online Store`}
-        description={vendor.about || `Shop products from ${vendor.name}`}
+        title={`${vendor.businessName} - Online Store`}
+        description={vendor.about}
+        image={vendor.banner}
       />
       <div className="min-h-screen bg-background">
         {/* Header */}
@@ -159,12 +161,48 @@ export default function StorefrontPage() {
           </div>
         </header>
 
-        {/* Banner */}
-        {vendor.banner && (
-          <div className="w-full h-48 md:h-64 overflow-hidden">
-            <img src={vendor.banner} alt={vendor.name} className="w-full h-full object-cover" />
+        {/* Hero Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="relative h-64 bg-gradient-to-br from-primary via-secondary to-accent overflow-hidden"
+        >
+          {vendor.banner && (
+            <img
+              src={vendor.banner}
+              alt={vendor.businessName}
+              className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="relative container mx-auto px-4 h-full flex items-end pb-8">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="flex items-end gap-6"
+            >
+              {vendor.logo && (
+                <div className="w-24 h-24 rounded-xl bg-white p-2 shadow-xl border-4 border-white">
+                  <img
+                    src={vendor.logo}
+                    alt={vendor.businessName}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              )}
+              <div className="pb-2">
+                <h1 className="text-4xl font-heading font-bold text-white mb-2">
+                  {vendor.businessName}
+                </h1>
+                {vendor.tagline && (
+                  <p className="text-white/90 text-lg">{vendor.tagline}</p>
+                )}
+              </div>
+            </motion.div>
           </div>
-        )}
+        </motion.div>
 
         {/* Store Info */}
         <div className="border-b bg-muted/30">
@@ -243,67 +281,106 @@ export default function StorefrontPage() {
           </div>
 
           {/* Products Grid */}
-          {filteredProducts.length === 0 ? (
-            <div className="text-center py-12">
-              <Store className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                {searchQuery || selectedCategory !== "all"
-                  ? "No products found matching your filters"
-                  : "No products available yet"}
-              </p>
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => (
-                <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredProducts.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <ShoppingBag className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                <p className="text-muted-foreground">No products found</p>
+              </div>
+            ) : (
+              filteredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.4 }}
+                >
                   <Link href={`/store/${vendorSlug}/products/${product.id}`}>
-                    <div className="aspect-square bg-muted relative overflow-hidden">
-                      {product.images[0] ? (
-                        <img
-                          src={product.images[0]}
-                          alt={product.name}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Store className="h-12 w-12 text-muted-foreground" />
-                        </div>
-                      )}
-                      {product.featured && (
-                        <Badge className="absolute top-2 right-2 bg-primary">Featured</Badge>
-                      )}
-                    </div>
-                  </Link>
-                  <CardContent className="p-4">
-                    <Link href={`/store/${vendorSlug}/products/${product.id}`}>
-                      <h3 className="font-heading font-semibold mb-1 hover:text-primary transition-colors">
-                        {product.name}
-                      </h3>
-                    </Link>
-                    <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
-                      {product.description}
-                    </p>
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <p className="text-lg font-bold">${product.price.toFixed(2)}</p>
+                    <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group h-full">
+                      <div className="aspect-square relative overflow-hidden bg-muted">
+                        {product.images[0] ? (
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <ShoppingBag className="w-16 h-16 text-muted-foreground" />
+                          </div>
+                        )}
+                        {product.stockStatus !== "in_stock" && (
+                          <div className="absolute top-2 right-2">
+                            <Badge
+                              variant={
+                                product.stockStatus === "out_of_stock"
+                                  ? "destructive"
+                                  : "secondary"
+                              }
+                            >
+                              {product.stockStatus === "out_of_stock"
+                                ? "Out of Stock"
+                                : "Low Stock"}
+                            </Badge>
+                          </div>
+                        )}
                         {product.discountPrice && (
-                          <p className="text-sm text-muted-foreground line-through">
-                            ${product.discountPrice.toFixed(2)}
-                          </p>
+                          <div className="absolute top-2 left-2">
+                            <Badge className="bg-accent text-accent-foreground">
+                              {Math.round(
+                                ((product.price - product.discountPrice) / product.price) * 100
+                              )}
+                              % OFF
+                            </Badge>
+                          </div>
                         )}
                       </div>
-                      {getStockBadge(product.stockStatus)}
-                    </div>
-                    <Button asChild size="sm" className="w-full" disabled={product.stockStatus === "out_of_stock"}>
-                      <Link href={`/store/${vendorSlug}/products/${product.id}`}>
-                        View Details
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
+                      <CardContent className="p-4">
+                        <h3 className="font-semibold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                          {product.name}
+                        </h3>
+                        {product.category && (
+                          <p className="text-xs text-muted-foreground mb-2">
+                            {product.category}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <div>
+                            {product.discountPrice ? (
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg font-bold text-primary">
+                                  ${product.discountPrice.toFixed(2)}
+                                </span>
+                                <span className="text-sm text-muted-foreground line-through">
+                                  ${product.price.toFixed(2)}
+                                </span>
+                              </div>
+                            ) : (
+                              <span className="text-lg font-bold">
+                                ${product.price.toFixed(2)}
+                              </span>
+                            )}
+                          </div>
+                          <Badge
+                            variant={
+                              product.stockStatus === "in_stock" ? "default" : "secondary"
+                            }
+                            className={
+                              product.stockStatus === "in_stock"
+                                ? "bg-success text-success-foreground"
+                                : ""
+                            }
+                          >
+                            {product.stockStatus === "in_stock" ? "In Stock" : "Limited"}
+                          </Badge>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </motion.div>
+              ))
+            )}
+          </div>
         </div>
 
         {/* Footer */}
