@@ -1,6 +1,6 @@
 ---
 title: Vendor Dashboard & Product Management
-status: todo
+status: in_progress
 priority: high
 type: feature
 tags: [vendor, products]
@@ -10,22 +10,20 @@ position: 3
 ---
 
 ## Notes
-Vendor dashboard for managing products. Vendors can add/edit/delete products, upload images, set prices, manage stock status, and organize by categories.
+Vendor-facing dashboard with complete product management. Vendors can add/edit/delete products, manage inventory, set categories, upload images, and view their store analytics.
 
 ## Checklist
-- [ ] Vendor dashboard page with product stats (total products, in stock, out of stock, low stock)
-- [ ] Products list page with grid/table view toggle
-- [ ] Add product form (name, description, price, discount price, category, images, stock status, SKU)
+- [ ] Vendor dashboard layout with navigation
+- [ ] Vendor dashboard homepage (products count, views, low stock alerts, quick actions)
+- [ ] Products list page with data table (name, price, stock status, category, views)
+- [ ] Create product form (name, description, price, discount price, category, images, stock status, quantity)
 - [ ] Edit product functionality
 - [ ] Delete product with confirmation
-- [ ] Product image upload (single or multiple)
-- [ ] Category management (add custom categories)
-- [ ] Stock status toggle (in stock / out of stock)
-- [ ] Product search and filter by category
-- [ ] API routes for product CRUD (/api/vendor/products)
+- [ ] Category management
+- [ ] Image upload placeholder (mock URLs for MVP)
+- [ ] API routes for vendor products CRUD (/api/vendor/products)
 
 ## Acceptance
-- Vendors see their product statistics on dashboard
-- Vendors can add products with images and details
-- Product list shows all vendor's products with edit/delete actions
+- Vendor can log in and see their dashboard
+- Vendor dashboard shows all vendor's products with edit/delete actions
 - Stock status updates reflect immediately
