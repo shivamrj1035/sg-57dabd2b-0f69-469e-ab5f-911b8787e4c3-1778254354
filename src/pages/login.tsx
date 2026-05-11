@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogIn, Store } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { authLib } from "@/lib/auth";
 
 export default function Login() {
   const router = useRouter();
@@ -25,6 +26,17 @@ export default function Login() {
 
     try {
       await login(email, password);
+      // Post-login redirection logic
+      const user = authLib.getUser();
+      if (user) {
+        if (user.role === "super_admin") {
+          router.push("/admin/dashboard");
+        } else if (user.role === "vendor") {
+          router.push("/vendor/dashboard");
+        } else {
+          router.push("/");
+        }
+      }
     } catch (err: any) {
       setError(err.message || "Login failed");
     } finally {

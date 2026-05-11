@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AdminLayout } from "@/components/layouts/AdminLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Store, Package, Users, TrendingUp } from "lucide-react";
+import { Store, Package, Users, TrendingUp, Palette, Layout } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { mockDB } from "@/lib/mockData";
 import { Vendor } from "@/types";
@@ -99,45 +99,101 @@ export default function AdminDashboardPage() {
             </Card>
           </div>
 
-          {/* Recent Vendors */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Vendors</CardTitle>
-              <CardDescription>Latest vendor registrations</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {vendors.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-8">
-                  No vendors yet. New registrations will appear here.
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {vendors.slice(0, 5).map((vendor) => (
-                    <div
-                      key={vendor.id}
-                      className="flex items-center justify-between p-4 border rounded-lg"
-                    >
-                      <div>
-                        <p className="font-medium">{vendor.name}</p>
-                        <p className="text-sm text-muted-foreground">{vendor.email}</p>
-                      </div>
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          vendor.status === "active"
-                            ? "bg-accent/10 text-accent"
-                            : vendor.status === "pending"
-                            ? "bg-yellow-500/10 text-yellow-600"
-                            : "bg-destructive/10 text-destructive"
-                        }`}
+          {/* Recent Vendors, Subscriptions and UI Config */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Vendors</CardTitle>
+                <CardDescription>Latest vendor registrations</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {vendors.length === 0 ? (
+                  <p className="text-sm text-muted-foreground text-center py-8">
+                    No vendors yet. New registrations will appear here.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {vendors.slice(0, 5).map((vendor) => (
+                      <div
+                        key={vendor.id}
+                        className="flex items-center justify-between p-4 border rounded-lg"
                       >
-                        {vendor.status}
-                      </span>
+                        <div>
+                          <p className="font-medium">{vendor.name}</p>
+                          <p className="text-sm text-muted-foreground">{vendor.email}</p>
+                        </div>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            vendor.status === "active"
+                              ? "bg-primary/10 text-primary"
+                              : vendor.status === "pending"
+                              ? "bg-yellow-500/10 text-yellow-600"
+                              : "bg-destructive/10 text-destructive"
+                          }`}
+                        >
+                          {vendor.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Subscription Overview</CardTitle>
+                  <CardDescription>Plan distribution and revenue</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between p-4 border rounded-lg bg-primary/5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                        <TrendingUp className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="font-bold">Premium Plan</p>
+                        <p className="text-xs text-muted-foreground">42 Active Subscribers</p>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    <p className="font-black text-primary">$1,260/mo</p>
+                  </div>
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                        <TrendingUp className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="font-bold">Basic Plan</p>
+                        <p className="text-xs text-muted-foreground">128 Active Subscribers</p>
+                      </div>
+                    </div>
+                    <p className="font-black text-secondary">$0/mo</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>UI Configuration</CardTitle>
+                  <CardDescription>Live branding and theme management</CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 gap-4">
+                  <div className="p-4 border rounded-xl hover:bg-accent/5 cursor-pointer transition-colors">
+                    <Palette className="h-5 w-5 mb-2 text-primary" />
+                    <p className="font-bold text-sm">Theme Colors</p>
+                    <p className="text-[10px] text-muted-foreground">Global accent & primary</p>
+                  </div>
+                  <div className="p-4 border rounded-xl hover:bg-accent/5 cursor-pointer transition-colors">
+                    <Layout className="h-5 w-5 mb-2 text-secondary" />
+                    <p className="font-bold text-sm">Layouts</p>
+                    <p className="text-[10px] text-muted-foreground">Mobile & Desktop structure</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
       </AdminLayout>
     </ProtectedRoute>

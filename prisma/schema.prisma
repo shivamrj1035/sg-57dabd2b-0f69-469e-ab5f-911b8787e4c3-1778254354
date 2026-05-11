@@ -1,9 +1,11 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -38,6 +40,8 @@ model Vendor {
   facebook        String?
   instagram       String?
   twitter         String?
+  city            String?
+  area            String?
   primaryColor    String    @default("#3b82f6")
   secondaryColor  String    @default("#64748b")
   createdAt       DateTime  @default(now())
@@ -45,9 +49,28 @@ model Vendor {
   
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   products        Product[]
+  subscriptions   Subscription[]
   
   @@index([userId])
   @@index([slug])
+  @@index([status])
+  @@index([city])
+  @@index([area])
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  vendorId  String
+  plan      String   // basic, premium, enterprise
+  status    String   @default("active") // active, cancelled, expired
+  startDate DateTime @default(now())
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  vendor    Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  
+  @@index([vendorId])
   @@index([status])
 }
 

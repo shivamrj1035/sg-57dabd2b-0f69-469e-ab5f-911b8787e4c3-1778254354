@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { mockDB } from "@/lib/mockData";
-
-// Simple password hash simulation (in production, use bcrypt)
-const DEMO_PASSWORD = "admin123";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -16,23 +14,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    // Initialize mock DB
-    mockDB.initialize();
-
-    // Find user
-    const user = mockDB.getUserByEmail(email);
+    // Find user in real database
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { vendor: true }
+    });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Simple password check (in production, use bcrypt.compare)
-    // For demo: admin@platform.com / admin123
-    if (password !== DEMO_PASSWORD) {
+    // Verify password with bcrypt
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Generate simple JWT token (in production, use jsonwebtoken)
+    // Generate simple token
     const token = Buffer.from(JSON.stringify({ userId: user.id, email: user.email })).toString("base64");
 
     return res.status(200).json({
@@ -41,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         email: user.email,
         name: user.name,
         role: user.role,
-        vendorId: user.vendorId,
+        vendorId: user.vendor?.id || null,
       },
       token,
     });

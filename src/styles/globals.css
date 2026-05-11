@@ -124,4 +124,20 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
   }
+
+  .glass {
+    @apply bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
+
+  .glass-card {
+    @apply glass shadow-2xl rounded-2xl transition-all duration-300;
+  }
+
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
 }

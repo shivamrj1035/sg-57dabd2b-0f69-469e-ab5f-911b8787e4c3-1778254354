@@ -1,211 +1,166 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Store, Package, Users, TrendingUp, MessageCircle, Palette, BarChart3 } from "lucide-react";
+import React, { useState } from "react";
+import { Search, Store, Package, Star, Clock, Filter, ChevronRight } from "lucide-react";
+import { CustomerLayout } from "@/components/layouts/CustomerLayout";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { AreaSelector } from "@/components/AreaSelector";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/SEO";
-import { ParticleBackground } from "@/components/3D/ParticleBackground";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
-export default function Home() {
-  const router = useRouter();
-  const { user, isAuthenticated } = useAuth();
+export default function CustomerHome() {
+  const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      if (user.role === "super_admin") {
-        router.push("/admin/dashboard");
-      } else if (user.role === "vendor") {
-        router.push("/vendor/dashboard");
-      }
-    }
-  }, [isAuthenticated, user, router]);
+  const categories = [
+    { name: "Electronics", icon: "📱", color: "from-blue-500/20 to-cyan-500/20" },
+    { name: "Fashion", icon: "👗", color: "from-pink-500/20 to-rose-500/20" },
+    { name: "Grocery", icon: "🍎", color: "from-green-500/20 to-emerald-500/20" },
+    { name: "Beauty", icon: "💄", color: "from-purple-500/20 to-indigo-500/20" },
+    { name: "Home", icon: "🏠", color: "from-orange-500/20 to-amber-500/20" },
+  ];
 
-  const features = [
+  const featuredStores = [
     {
-      icon: Store,
-      title: "Custom Storefronts",
-      description: "Create beautiful branded storefronts with your logo, colors, and product catalog"
+      name: "Modern Electronics",
+      area: "Indiranagar",
+      rating: 4.8,
+      distance: "1.2 km",
+      image: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=400",
+      slug: "modern-electronics",
+      category: "Electronics"
     },
     {
-      icon: Package,
-      title: "Product Management",
-      description: "Easy-to-use dashboard to manage inventory, pricing, and product details"
+      name: "Fashion Hub",
+      area: "HSR Layout",
+      rating: 4.5,
+      distance: "2.5 km",
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=400",
+      slug: "fashion-hub",
+      category: "Fashion"
     },
     {
-      icon: MessageCircle,
-      title: "WhatsApp Integration",
-      description: "Let customers order directly through WhatsApp with pre-filled messages"
-    },
-    {
-      icon: Palette,
-      title: "Store Customization",
-      description: "Customize colors, fonts, and layout to match your brand identity"
-    },
-    {
-      icon: BarChart3,
-      title: "Analytics & Insights",
-      description: "Track product views, popular items, and customer engagement"
-    },
-    {
-      icon: Users,
-      title: "Multi-Vendor Platform",
-      description: "Manage multiple vendor accounts from a single admin dashboard"
+      name: "Fresh Mart",
+      area: "Indiranagar",
+      rating: 4.9,
+      distance: "0.8 km",
+      image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400",
+      slug: "fresh-mart",
+      category: "Grocery"
     }
   ];
 
   return (
-    <>
+    <CustomerLayout>
       <SEO 
-        title="VendorHub - Multi-Vendor SaaS Platform"
-        description="Create your online storefront and start selling with WhatsApp integration"
+        title="LocalHub - Find Best Stores Near You" 
+        description="Discover local stores, browse products, and order via WhatsApp from your favorite neighborhood shops."
       />
-      <ParticleBackground />
-      <div className="min-h-screen bg-background relative z-10">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10" />
-          <div className="container mx-auto px-4 py-20 relative">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-4xl mx-auto"
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-block mb-6"
+
+      <div className="space-y-8 max-w-2xl mx-auto">
+        {/* Header Section */}
+        <section className="space-y-6">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-heading font-black tracking-tight">
+              What are you <br />
+              <span className="text-gradient">looking for today?</span>
+            </h1>
+          </div>
+          
+          <AreaSelector />
+
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input 
+              placeholder="Search for products or stores..." 
+              className="pl-12 h-14 rounded-2xl glass border-white/10 text-lg shadow-xl"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </section>
+
+        {/* Categories Section */}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold tracking-tight uppercase text-xs tracking-[0.2em] text-muted-foreground">Categories</h2>
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide no-scrollbar">
+            {categories.map((cat) => (
+              <motion.button
+                key={cat.name}
+                whileTap={{ scale: 0.95 }}
+                className="flex flex-col items-center gap-2 min-w-[80px]"
               >
-                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
-                  <TrendingUp className="h-4 w-4" />
-                  Modern Multi-Vendor Platform
+                <div className={`w-16 h-16 rounded-3xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-3xl glass border-white/20 shadow-lg`}>
+                  {cat.icon}
                 </div>
-              </motion.div>
-              
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
-              >
-                Launch Your Online Store in Minutes
-              </motion.h1>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-xl md:text-2xl text-muted-foreground mb-8"
-              >
-                Create beautiful storefronts, manage products, and sell through WhatsApp — all in one platform
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center"
-              >
-                <Button asChild size="lg" className="text-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow">
-                  <Link href="/register">
-                    <Store className="h-5 w-5 mr-2" />
-                    Start Selling Now
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="text-lg">
-                  <Link href="/login">
-                    Sign In
-                  </Link>
-                </Button>
-              </motion.div>
-            </motion.div>
+                <span className="text-xs font-bold uppercase tracking-tighter">{cat.name}</span>
+              </motion.button>
+            ))}
           </div>
         </section>
 
-        {/* Features Grid */}
-        <section className="py-20 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-                Everything You Need to Succeed
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Powerful features designed for local vendors and shop owners
-              </p>
-            </motion.div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                >
-                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4">
-                        <feature.icon className="h-6 w-6 text-white" />
+        {/* Featured Stores */}
+        <section className="space-y-4 pb-10">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold tracking-tight uppercase text-xs tracking-[0.2em] text-muted-foreground">Stores Near You</h2>
+            <Link href="/discover" className="text-primary text-xs font-black flex items-center gap-1 uppercase tracking-widest">
+              View All <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
+          
+          <div className="space-y-4">
+            {featuredStores.map((store) => (
+              <Link href={`/store/${store.slug}`} key={store.slug} className="block">
+                <GlassCard className="group p-0 rounded-3xl">
+                  <div className="flex h-32">
+                    <div className="w-32 h-full relative overflow-hidden">
+                      <img 
+                        src={store.image} 
+                        alt={store.name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </div>
+                    <div className="flex-1 p-4 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <Badge variant="outline" className="text-[10px] uppercase font-black bg-primary/10 text-primary border-none">
+                            {store.category}
+                          </Badge>
+                          <div className="flex items-center gap-1 text-xs font-bold text-yellow-500">
+                            <Star className="h-3 w-3 fill-current" />
+                            {store.rating}
+                          </div>
+                        </div>
+                        <h3 className="font-heading font-black text-xl leading-tight">{store.name}</h3>
+                        <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
+                          <Store className="h-3 w-3" />
+                          {store.area} • {store.distance}
+                        </p>
                       </div>
-                      <CardTitle className="text-xl">{feature.title}</CardTitle>
-                      <CardDescription className="text-base">{feature.description}</CardDescription>
-                    </CardHeader>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-green-500">
+                        <Clock className="h-3 w-3" />
+                        Open Now • Delivery in 30m
+                      </div>
+                    </div>
+                  </div>
+                </GlassCard>
+              </Link>
+            ))}
           </div>
         </section>
-
-        {/* CTA Section */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <Card className="bg-gradient-to-br from-primary via-secondary to-accent text-white border-none shadow-2xl">
-                <CardContent className="p-12 text-center">
-                  <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-                    Ready to Start Selling?
-                  </h2>
-                  <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-                    Join hundreds of vendors already using VendorHub to grow their business
-                  </p>
-                  <Button asChild size="lg" variant="secondary" className="text-lg shadow-lg">
-                    <Link href="/register">
-                      <Store className="h-5 w-5 mr-2" />
-                      Create Your Store
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="border-t py-8">
-          <div className="container mx-auto px-4">
-            <div className="text-center text-muted-foreground">
-              <p>&copy; 2026 VendorHub. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
       </div>
-    </>
+
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </CustomerLayout>
   );
 }

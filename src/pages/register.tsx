@@ -34,7 +34,7 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      await register(name, email, password);
+      await register(name, email, password, "vendor");
       toast({
         title: "Registration submitted",
         description: "Your application is pending approval. You'll be notified once approved.",

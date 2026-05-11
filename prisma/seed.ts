@@ -54,6 +54,8 @@ async function main() {
       facebook: "https://facebook.com/demoshop",
       instagram: "https://instagram.com/demoshop",
       twitter: "https://twitter.com/demoshop",
+      city: "Bangalore",
+      area: "Indiranagar",
       primaryColor: "#6366f1",
       secondaryColor: "#8b5cf6",
     },
